@@ -2,8 +2,9 @@ import argparse
 from PIL import Image
 from pathlib import Path
 from math import ceil
+from typing import TypeAlias
 
-type Pixel = tuple[int, int, int, int]
+Pixel: TypeAlias = tuple[int, int, int, int]
 
 
 def encode(msg: str, img_path: str | Path, output_path: str | Path) -> None:
