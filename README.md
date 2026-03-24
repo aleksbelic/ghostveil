@@ -80,6 +80,11 @@ Decode message from image:
 python3 ghostveil.py decode demo_output.png
 ```
 
+Using in pipeline:
+```bash
+python3 ghostveil.py decode demo_output.png > secret_message.txt
+```
+
 To make process verbose, please use flag `-v` or `--verbose`.
 
 Verbose encoding into message:
