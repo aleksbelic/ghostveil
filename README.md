@@ -6,19 +6,74 @@ Python tool for injecting secret message into custom image (more on [steganograp
     <img src="./img/cover.png">
 </p>
 
-## Usage
+## Requirements
 
-Console:
+- Python 3.10+
+
+## Install dependencies
+
+Please check [requirements.txt](./requirements.txt) for exact versions.
+- [pillow](https://github.com/python-pillow/Pillow)
+- [ruff](https://github.com/astral-sh/ruff)
+- [codespell](https://github.com/codespell-project/codespell)
+- [pytest](https://github.com/pytest-dev/pytest)
+
 ```bash
-python ghostveil.py "Memento mori" demo.png demo_output.png
+pip install -r requirements.txt
+```
+
+## Usage in console
+
+⚠️ `Encode` & `decode` functions are non-verbose by default to make piping possible.
+
+Encode message into image:
+```bash
+python3 ghostveil.py encode "Memento mori" demo.png demo_output.png
+```
+
+Decode message from image:
+```bash
+python3 ghostveil.py decode demo_output.png
+```
+
+To make process verbose, please use flag `-v` or `--verbose`.
+
+Verbose encoding into message:
+```bash
+python3 ghostveil.py -v encode "Memento mori" demo.png demo_output.png
+# Encoding complete! 👻
+# Output: ./img/demo_output.png
+```
+
+Verbose decode message from image:
+```bash
+python3 ghostveil.py -v decode demo_output.png
+# Decoding complete! 👻
+# Decoded message: Memento mori
 ```
 
 More info:
 ```bash
-python ghostveil.py -h
+python3 ghostveil.py -h
+python3 ghostveil.py encode -h
+python3 ghostveil.py decode -h
 ```
 
-## Scripts
+## Usage in Python
+
+```python
+from ghostveil import encode, decode
+
+# Encode message into image
+encode("Memento mori", img_path="demo.png", output_path="demo_output.png")
+
+# Decode message from image
+message = decode("demo_output.png")
+print(message)  # Memento mori
+```
+
+
+## DEV Scripts
 
 Typo check:
 ```bash
@@ -45,15 +100,7 @@ Run unit tests:
 pytest
 ```
 
-Run all scripts (lint check with fix & format & tests):
+Run all scripts (lint check with fix & format & tests - requires `make` installed on your system):
 ```bash
 make all
 ```
-
-## Dependencies
-
-Please check [requirements.txt](./requirements.txt) for exact versions.
-- [pillow](https://github.com/python-pillow/Pillow)
-- [ruff](https://github.com/astral-sh/ruff)
-- [codespell](https://github.com/codespell-project/codespell)
-- [pytest](https://github.com/pytest-dev/pytest)
