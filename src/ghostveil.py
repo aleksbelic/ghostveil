@@ -10,7 +10,13 @@ HEADER_LENGTH_IN_PX: int = 4
 CHANNEL_COUNT: int = 3
 
 
-def encode(msg: str, img_path: str | Path, output_path: str | Path) -> None:
+def get_output_path(img_path: Path) -> Path:
+    return img_path.with_stem(img_path.stem + "_ghostveil")
+
+
+def encode(
+    msg: str, img_path: str | Path, output_path: str | Path | None = None
+) -> None:
     if not msg:
         raise ValueError("Please provide the message.")
 
@@ -18,7 +24,11 @@ def encode(msg: str, img_path: str | Path, output_path: str | Path) -> None:
         raise ValueError("Please provide image path.")
 
     img_path = Path(img_path)
-    output_path = Path(output_path)
+
+    if output_path is None:
+        output_path = get_output_path(img_path)
+    else:
+        output_path = Path(output_path)
 
     msg_bit_string: str = "".join(format(ord(char), "08b") for char in msg)
 
@@ -140,7 +150,9 @@ if __name__ == "__main__":
     )
     encode_parser.add_argument("msg", help="Message to encode")
     encode_parser.add_argument("img_path", help="Path to input image")
-    encode_parser.add_argument("output_path", help="Path to output image")
+    encode_parser.add_argument(
+        "output_path", nargs="?", help="Path to output image (optional)"
+    )
 
     decode_parser = subparsers.add_parser(
         "decode", help="Decode a message from an image"
@@ -150,9 +162,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.command == "encode":
-        encode(args.msg, args.img_path, args.output_path)
+        img_path = Path(args.img_path)
+        output_path = (
+            Path(args.output_path) if args.output_path else get_output_path(img_path)
+        )
+        encode(args.msg, img_path, output_path)
         if args.verbose:
-            print(f"Encoding complete! 👻\nOutput: {args.output_path}")
+            print(f"Encoding complete! 👻\nOutput: {output_path}")
     elif args.command == "decode":
         msg = decode(args.img_path)
         if args.verbose:

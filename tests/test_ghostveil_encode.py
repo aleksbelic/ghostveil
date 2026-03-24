@@ -1,6 +1,7 @@
+from PIL import Image
 import pytest
 from pathlib import Path
-from src.ghostveil import encode
+from src.ghostveil import encode, get_output_path
 import re
 
 img_dir_path = Path(__file__).parent.parent / "img"
@@ -16,7 +17,11 @@ def test_encode_raises_on_empty_image_path():
         encode("Hello, World!", img_path="", output_path="test_output.png")
 
 
-def test_encode_raises_on_small_image():
+def test_encode_raises_on_small_image(tmp_path):
+    small_img = Image.new("RGBA", (1, 1), (255, 255, 255, 255))  # 1x1 px
+    small_img_path = tmp_path / "1x1.png"
+    small_img.save(small_img_path)
+
     with pytest.raises(
         ValueError,
         match=re.escape(
@@ -25,15 +30,24 @@ def test_encode_raises_on_small_image():
     ):
         encode(
             "Hello, World!",
-            img_path=img_dir_path / "1x1.png",
-            output_path="test_output.png",
+            img_path=small_img_path,
+            output_path=tmp_path / "test_output.png",
         )
 
 
-def test_encode_raises_on_message_too_long():
+def test_encode_raises_on_message_too_long(tmp_path):
+    img = Image.new("RGBA", (10, 10), (255, 255, 255, 255))  # 10x10 px
+    img_path = tmp_path / "10x10.png"
+    img.save(img_path)
+
     with pytest.raises(ValueError, match="Message too long"):
         encode(
             "X" * 10000,
-            img_path=img_dir_path / "1x1.png",
+            img_path=img_dir_path / "10x10.png",
             output_path="test_output.png",
         )
+
+
+def test_get_output_path():
+    img_path = Path("some/dir/demo.png")
+    assert get_output_path(img_path) == Path("some/dir/demo_ghostveil.png")

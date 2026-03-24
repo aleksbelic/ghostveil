@@ -1,7 +1,9 @@
+from PIL import Image
 import pytest
 from pathlib import Path
 from src.ghostveil import encode, decode
 import re
+import shutil
 
 img_dir_path = Path(__file__).parent.parent / "img"
 
@@ -11,13 +13,17 @@ def test_decode_raises_on_empty_image_path():
         decode(img_path="")
 
 
-def test_decode_raises_on_small_image():
+def test_decode_raises_on_small_image(tmp_path):
+    small_img = Image.new("RGBA", (1, 1), (255, 255, 255, 255))  # 1x1 px
+    small_img_path = tmp_path / "1x1.png"
+    small_img.save(small_img_path)
+
     with pytest.raises(
         ValueError,
         match=re.escape("Image is too small to contain a valid header."),
     ):
         decode(
-            img_path=img_dir_path / "1x1.png",
+            img_path=small_img_path,
         )
 
 
@@ -26,3 +32,9 @@ def test_encode_decode_roundtrip(tmp_path):
     output_path = tmp_path / "test_output.png"
     encode(msg, img_path=img_dir_path / "demo.png", output_path=output_path)
     assert decode(output_path) == msg
+
+
+def test_encode_auto_output_path(tmp_path):
+    shutil.copy(img_dir_path / "demo.png", tmp_path / "demo.png")
+    encode("Memento mori", img_path=tmp_path / "demo.png")
+    assert decode(tmp_path / "demo_ghostveil.png") == "Memento mori"
