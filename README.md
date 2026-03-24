@@ -3,7 +3,7 @@
 Python [steganography](https://en.wikipedia.org/wiki/Steganography) tool for injecting a secret message into custom image.
 
 <p align="center">
-    <img src="./img/cover.png">
+    <img src="./img/demo.png">
 </p>
 
 ## Requirements
