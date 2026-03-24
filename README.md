@@ -1,6 +1,6 @@
 # GhostVeil
 
-Python tool for injecting secret message into custom image (more on [steganography](https://en.wikipedia.org/wiki/Steganography)).
+Python [steganography](https://en.wikipedia.org/wiki/Steganography) tool for injecting a secret message into custom image.
 
 <p align="center">
     <img src="./img/cover.png">
@@ -12,17 +12,26 @@ Python tool for injecting secret message into custom image (more on [steganograp
 
 ## Install dependencies
 
-Please check [requirements.txt](./requirements.txt) for exact versions.
-- [pillow](https://github.com/python-pillow/Pillow)
-- [ruff](https://github.com/astral-sh/ruff)
-- [codespell](https://github.com/codespell-project/codespell)
-- [pytest](https://github.com/pytest-dev/pytest)
+Please check [requirements.txt](./requirements.txt) & [requirements-dev.txt](./requirements-dev.txt) for exact versions.
+
+- Runtime:
+    - [pillow](https://github.com/python-pillow/Pillow)
+
+- Dev:
+    - [ruff](https://github.com/astral-sh/ruff)
+    - [codespell](https://github.com/codespell-project/codespell)
+    - [pytest](https://github.com/pytest-dev/pytest)
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt       # runtime dependencies
+pip install -r requirements-dev.txt   # dev tools
 ```
 
-## Usage in console
+## Usage
+
+⚠️ Only **lossless** image formats are supported (e.g. `PNG`). Lossy formats like `JPEG` will corrupt the hidden message.
+
+### Usage in console
 
 ⚠️ `Encode` & `decode` functions are non-verbose by default to make piping possible.
 
@@ -65,7 +74,7 @@ python3 ghostveil.py encode -h
 python3 ghostveil.py decode -h
 ```
 
-## Usage in Python
+### Usage in Python script
 
 ```python
 from ghostveil import encode, decode
