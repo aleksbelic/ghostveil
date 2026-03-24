@@ -43,7 +43,7 @@ python3 ghostveil.py encode "Memento mori" demo.png demo_output.png
 ℹ️ Output image path is `optional` and by default will be generated in the same directory as input image with `_ghostveil` suffix:
 ```bash
 python3 ghostveil.py encode "Memento mori" demo.png
-# Output: ./demo_ghostveil.png
+# Output: demo_ghostveil.png
 ```
 
 Decode message from image:
@@ -57,7 +57,7 @@ Verbose encoding into message:
 ```bash
 python3 ghostveil.py -v encode "Memento mori" demo.png demo_output.png
 # Encoding complete! 👻
-# Output: ./img/demo_output.png
+# Output: demo_output.png
 ```
 
 Verbose decode message from image:
