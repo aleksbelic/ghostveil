@@ -4,8 +4,6 @@ from pathlib import Path
 from src.ghostveil import encode, get_output_path
 import re
 
-img_dir_path = Path(__file__).parent.parent / "img"
-
 
 def test_encode_raises_on_empty_message():
     with pytest.raises(ValueError, match=re.escape("Please provide the message.")):
@@ -43,7 +41,7 @@ def test_encode_raises_on_message_too_long(tmp_path):
     with pytest.raises(ValueError, match="Message too long"):
         encode(
             "X" * 10000,
-            img_path=img_dir_path / "10x10.png",
+            img_path=img_path,
             output_path="test_output.png",
         )
 
