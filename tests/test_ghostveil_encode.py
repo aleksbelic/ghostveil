@@ -49,3 +49,10 @@ def test_encode_raises_on_message_too_long(tmp_path):
 def test_get_output_path():
     img_path = Path("some/dir/demo.png")
     assert get_output_path(img_path) == Path("some/dir/demo_ghostveil.png")
+
+
+def test_encode_raises_on_missing_image():
+    with pytest.raises(
+        FileNotFoundError, match=re.escape("Image not found: nonexistent.png")
+    ):
+        encode("Hello, World!", img_path="nonexistent.png")

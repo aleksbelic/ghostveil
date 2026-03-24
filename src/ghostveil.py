@@ -25,6 +25,9 @@ def encode(
 
     img_path = Path(img_path)
 
+    if not img_path.exists():
+        raise FileNotFoundError(f"Image not found: {img_path}")
+
     if output_path is None:
         output_path = get_output_path(img_path)
     else:
@@ -99,6 +102,9 @@ def decode(img_path: str | Path) -> str:
         raise ValueError("Please provide image path.")
 
     img_path = Path(img_path)
+
+    if not img_path.exists():
+        raise FileNotFoundError(f"Image not found: {img_path}")
 
     img: Image.Image = Image.open(img_path).convert("RGBA")
     img_pixels: list[Pixel] = list(img.get_flattened_data())

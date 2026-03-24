@@ -38,3 +38,10 @@ def test_encode_auto_output_path(tmp_path):
     shutil.copy(img_dir_path / "demo.png", tmp_path / "demo.png")
     encode("Memento mori", img_path=tmp_path / "demo.png")
     assert decode(tmp_path / "demo_ghostveil.png") == "Memento mori"
+
+
+def test_decode_raises_on_missing_image():
+    with pytest.raises(
+        FileNotFoundError, match=re.escape("Image not found: nonexistent.png")
+    ):
+        decode(img_path="nonexistent.png")
