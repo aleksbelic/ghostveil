@@ -78,25 +78,21 @@ python3 ghostveil.py decode -h
 
 ```python
 from ghostveil import encode, decode
-```
 
-Encode message into image:
-```python
+# Encode message into image
 encode("Memento mori", img_path="demo.png", output_path="demo_output.png")
+
+# Decode message from image
+message = decode("demo_output.png")
+print(message)  # Memento mori
 ```
 
 ℹ️ Output image path is `optional` and by default will be generated in the same directory as input image with `_ghostveil` suffix:
 ```python
 encode("Memento mori", img_path="demo.png")
-# Output: ./demo_ghostveil.png
-```
-
-Decode message from image:
-```python
-message = decode("demo_output.png")
+message = decode("demo_ghostveil.png")
 print(message)  # Memento mori
 ```
-
 
 ## DEV Scripts
 
